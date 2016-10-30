@@ -17,4 +17,4 @@ while true; do
     wait
 done
 
-psql -h localhost -U postgres -a -f /tmp/scripts/db.sql
+psql -h localhost -U postgres -a -f /scripts/db.sql
