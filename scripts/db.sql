@@ -67,13 +67,13 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE interaction (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     user1 integer,
     user2 integer,
     "timestamp" timestamp with time zone,
-    seen boolean,
+    seen boolean DEFAULT false,
     seenat timestamp with time zone,
-    accepted boolean
+    accepted boolean DEFAULT false
 );
 
 
@@ -85,7 +85,7 @@ ALTER TABLE interaction OWNER TO postgres;
 --
 
 CREATE TABLE reviews (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     reviewer_userid integer,
     reviewee_userid integer,
     stars integer,
@@ -101,7 +101,7 @@ ALTER TABLE reviews OWNER TO postgres;
 --
 
 CREATE TABLE schedule (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     dayofweek integer,
     arrive time without time zone,
     depart time without time zone,
@@ -117,8 +117,8 @@ ALTER TABLE schedule OWNER TO postgres;
 --
 
 CREATE TABLE users (
-    id integer NOT NULL,
-    cppuser character varying(16),
+    id SERIAL NOT NULL,
+    cppemail character varying(16),
     fullname character varying(32),
     altemail character varying(100),
     addressline1 character varying(100),
@@ -126,10 +126,10 @@ CREATE TABLE users (
     city character varying(32),
     zip integer,
     "timestamp" timestamp with time zone,
-    salt character varying(32),
-    passhash character varying(32),
-    verified boolean,
-    profilecomplete boolean,
+    salt character varying(64),
+    passhash character varying(64),
+    verified boolean DEFAULT false,
+    profilecomplete boolean DEFAULT false,
     picture bytea,
     maxdist integer,
     drivingpref integer
@@ -174,7 +174,7 @@ COPY schedule (id, dayofweek, arrive, depart, userid) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY users (id, cppuser, fullname, altemail, addressline1, addressline2, city, zip, "timestamp", salt, passhash, verified, profilecomplete, picture, maxdist, drivingpref) FROM stdin;
+COPY users (id, cppemail, fullname, altemail, addressline1, addressline2, city, zip, "timestamp", salt, passhash, verified, profilecomplete, picture, maxdist, drivingpref) FROM stdin;
 \.
 
 
