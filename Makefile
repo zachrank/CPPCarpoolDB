@@ -1,4 +1,4 @@
-build:
+build: stop
 	docker build -t cppcarpool-db .
 	-docker stop cppcarpool-db
 	-docker rm cppcarpool-db
