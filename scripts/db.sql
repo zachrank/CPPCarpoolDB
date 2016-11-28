@@ -138,6 +138,19 @@ CREATE TABLE users (
 
 ALTER TABLE users OWNER TO postgres;
 
+
+CREATE TABLE messages (
+    id SERIAL NOT NULL,
+    send_userid integer,
+    receive_userid integer,
+    "timestamp" timestamp with time zone,
+    message text,
+    read boolean DEFAULT false
+);
+
+
+ALTER TABLE messages OWNER TO postgres;
+
 --
 -- TOC entry 2151 (class 0 OID 16434)
 -- Dependencies: 188
@@ -177,6 +190,8 @@ COPY schedule (id, dayofweek, arrive, depart, userid) FROM stdin;
 COPY users (id, cppemail, fullname, altemail, addressline1, addressline2, city, zip, "timestamp", salt, passhash, verified, profilecomplete, picture, maxdist, drivingpref) FROM stdin;
 \.
 
+COPY reviews (id, send_userid, receive_userid, "timestamp", message, read) FROM stdin;
+\.
 
 --
 -- TOC entry 2018 (class 2606 OID 16396)
@@ -212,6 +227,10 @@ ALTER TABLE ONLY reviews
 
 ALTER TABLE ONLY schedule
     ADD CONSTRAINT schedid_pk PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pk PRIMARY KEY (id);
 
 
 --
@@ -265,6 +284,14 @@ ALTER TABLE ONLY reviews
 
 ALTER TABLE ONLY schedule
     ADD CONSTRAINT sched_userid_fk FOREIGN KEY (userid) REFERENCES users(id);
+
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_send_fk FOREIGN KEY (send_userid) REFERENCES users(id);
+
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_receive_fk FOREIGN KEY (receive_userid) REFERENCES users(id);
 
 
 -- Completed on 2016-10-30 14:46:14 PDT
