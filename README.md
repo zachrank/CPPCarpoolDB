@@ -1,5 +1,7 @@
 CPP Carpool DB
-----
+----------
+Written in Fall 2016 for CS 480 - Software Engineering at Cal Poly Pomona
+
 Postgres database for cpp carpool application
 
 Requirements:
